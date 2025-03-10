@@ -1,0 +1,15 @@
+services:
+  client:
+    image: caddy:latest
+    container_name: caddy_client
+    volumes:
+      - ./client-sidecar/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./certs:/certs:ro
+    ports:
+      - "8081:8081"
+    networks:
+      - client_net
+
+networks:
+  client_net:
+    driver: bridge

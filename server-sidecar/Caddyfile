@@ -1,0 +1,19 @@
+{
+	servers {
+		strict_sni_host insecure_off
+	}
+}
+
+:8443 {
+	tls /certs/server.crt /certs/server.key {
+		client_auth {
+			mode require_and_verify
+			trust_pool file {
+				pem_file /certs/client.crt
+			}
+		}
+	}
+	reverse_proxy server:8080 {
+		header_up Host {upstream_hostport}
+	}
+}

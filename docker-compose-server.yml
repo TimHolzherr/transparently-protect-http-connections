@@ -1,0 +1,25 @@
+services:
+  server:
+    image: caddy:latest
+    container_name: server
+    volumes:
+      - ./server/Caddyfile:/etc/caddy/Caddyfile:ro
+    networks:
+      - server_net
+
+  server-sidecar:
+    image: caddy:latest
+    container_name: server-sidecar
+    volumes:
+      - ./server-sidecar/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./certs:/certs:ro
+    ports:
+      - "8443:8443"
+    depends_on:
+      - server
+    networks:
+      - server_net
+
+networks:
+  server_net:
+    driver: bridge

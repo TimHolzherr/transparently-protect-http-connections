@@ -1,0 +1,13 @@
+:8081 {
+	reverse_proxy <ip or domain name of server>:8443 {
+		header_up Host {upstream_hostport}
+		transport http {
+			tls
+			tls_server_name FOO
+			tls_client_auth /certs/client.crt /certs/client.key
+			tls_trust_pool file {
+				pem_file /certs/server.crt
+			}
+		}
+	}
+}
